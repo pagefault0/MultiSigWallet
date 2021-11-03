@@ -1,4 +1,5 @@
-pragma solidity ^0.4.15;
+//SPDX-License-Identifier: lgplv3
+pragma solidity ^0.8.0;
 import "./Factory.sol";
 import "./MultiSigWalletWithDailyLimit.sol";
 
@@ -14,12 +15,12 @@ contract MultiSigWalletWithDailyLimitFactory is Factory {
     /// @param _owners List of initial owners.
     /// @param _required Number of required confirmations.
     /// @param _dailyLimit Amount in wei, which can be withdrawn without confirmations on a daily basis.
-    /// @return Returns wallet address.
-    function create(address[] _owners, uint _required, uint _dailyLimit)
+    /// @return wallet Returns wallet address.
+    function create(address[] memory _owners, uint _required, uint _dailyLimit)
         public
         returns (address wallet)
     {
-        wallet = new MultiSigWalletWithDailyLimit(_owners, _required, _dailyLimit);
+        wallet = (address)(new MultiSigWalletWithDailyLimit(_owners, _required, _dailyLimit));
         register(wallet);
     }
 }

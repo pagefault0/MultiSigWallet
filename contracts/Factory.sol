@@ -1,4 +1,5 @@
-pragma solidity ^0.4.15;
+//SPDX-License-Identifier: lgplv3
+pragma solidity ^0.8.0;
 
 contract Factory {
 
@@ -21,7 +22,7 @@ contract Factory {
     /// @return Returns number of instantiations by creator.
     function getInstantiationCount(address creator)
         public
-        constant
+        view
         returns (uint)
     {
         return instantiations[creator].length;
@@ -37,6 +38,6 @@ contract Factory {
     {
         isInstantiation[instantiation] = true;
         instantiations[msg.sender].push(instantiation);
-        ContractInstantiation(msg.sender, instantiation);
+        emit ContractInstantiation(msg.sender, instantiation);
     }
 }
