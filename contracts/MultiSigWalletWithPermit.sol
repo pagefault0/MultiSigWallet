@@ -18,8 +18,7 @@ contract ERC721TokenReceiver {
 /// @author pagefault@126.com
 contract MultiSigWalletWithPermit is
     MultiSigWallet,
-    ERC721TokenReceiver,
-    IERC165
+    ERC721TokenReceiver
 {
     uint256 constant MAX =
         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
@@ -37,7 +36,6 @@ contract MultiSigWalletWithPermit is
     function setSupportsInterface(bytes4 interfaceID, bool support)
         external
         onlyWallet
-        returns ()
     {
         supportedInterfaces[interfaceID] = support;
     }
