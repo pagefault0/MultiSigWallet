@@ -3,11 +3,44 @@ pragma solidity ^0.8.0;
 
 import "./MultiSigWallet.sol";
 
+contract ERC721TokenReceiver {
+    function onERC721Received(
+        address _operator,
+        address _from,
+        uint256 _tokenId,
+        bytes memory _data
+    ) external returns (bytes4) {
+        return ERC721TokenReceiver.onERC721Received.selector;
+    }
+}
+
 /// @title MultiSigWalletWithPermit wallet with permit -
 /// @author pagefault@126.com
-contract MultiSigWalletWithPermit is MultiSigWallet {
+contract MultiSigWalletWithPermit is
+    MultiSigWallet,
+    ERC721TokenReceiver,
+    IERC165
+{
     uint256 constant MAX =
         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
+
+    mapping(bytes4 => bool) internal supportedInterfaces;
+
+    function supportsInterface(bytes4 interfaceID)
+        external
+        view
+        returns (bool)
+    {
+        return supportedInterfaces[interfaceID];
+    }
+
+    function setSupportsInterface(bytes4 interfaceID, bool support)
+        external
+        onlyWallet
+        returns ()
+    {
+        supportedInterfaces[interfaceID] = support;
+    }
 
     /*
      * Public functions
@@ -18,6 +51,8 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     constructor(address[] memory _owners, uint256 _required)
         MultiSigWallet(_owners, _required)
     {
+        supportedInterfaces[0x01ffc9a7] = true;
+
         uint256 chainId;
         assembly {
             chainId := chainid()
