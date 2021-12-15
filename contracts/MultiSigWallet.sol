@@ -111,19 +111,25 @@ contract MultiSigWallet {
     /// @param _owners List of initial owners.
     /// @param _required Number of required confirmations.
     constructor(address[] memory _owners, uint _required)
-    validRequirement(_owners.length, _required)
+    // validRequirement(_owners.length, _required)
     {
+        required = 0;
+
+        if (_owners.length > 0 || _required > 0){
+            initialize(_owners, _required);
+        }
+    }
+
+    function initialize(address[] memory _owners, uint _required) public
+     validRequirement(_owners.length, _required)
+    {
+        require(required == 0, "initialized");
         for (uint i = 0; i < _owners.length; i++) {
             require(!isOwner[_owners[i]] && _owners[i] != (address)(0));
             isOwner[_owners[i]] = true;
         }
         owners = _owners;
         required = _required;
-
-        uint chainId;
-        assembly {
-            chainId := chainid()
-        }
     }
 
     /// @dev Allows to add a new owner. Transaction has to be sent by wallet.

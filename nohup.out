@@ -1,0 +1,55 @@
+63500:C 02 Nov 2021 21:10:10.335 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+63500:C 02 Nov 2021 21:10:10.335 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=63500, just started
+63500:C 02 Nov 2021 21:10:10.335 # Configuration loaded
+63500:M 02 Nov 2021 21:10:10.336 * Increased maximum number of open files to 10032 (it was originally set to 8192).
+63500:M 02 Nov 2021 21:10:10.336 * monotonic clock: POSIX clock_gettime
+63500:M 02 Nov 2021 21:10:10.337 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+63500:M 02 Nov 2021 21:10:10.337 # Failed listening on port 6379 (TCP), aborting.
+94627:C 18 Nov 2021 22:47:41.387 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+94627:C 18 Nov 2021 22:47:41.388 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=94627, just started
+94627:C 18 Nov 2021 22:47:41.388 # Configuration loaded
+94627:M 18 Nov 2021 22:47:41.389 * monotonic clock: POSIX clock_gettime
+94627:M 18 Nov 2021 22:47:41.390 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+94627:M 18 Nov 2021 22:47:41.390 # Failed listening on port 6379 (TCP), aborting.
+54578:C 26 Nov 2021 22:07:57.472 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+54578:C 26 Nov 2021 22:07:57.472 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=54578, just started
+54578:C 26 Nov 2021 22:07:57.472 # Configuration loaded
+54578:M 26 Nov 2021 22:07:57.474 * monotonic clock: POSIX clock_gettime
+54578:M 26 Nov 2021 22:07:57.474 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+54578:M 26 Nov 2021 22:07:57.474 # Failed listening on port 6379 (TCP), aborting.
+786:C 01 Dec 2021 21:27:29.170 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+786:C 01 Dec 2021 21:27:29.170 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=786, just started
+786:C 01 Dec 2021 21:27:29.170 # Configuration loaded
+786:M 01 Dec 2021 21:27:29.171 * monotonic clock: POSIX clock_gettime
+786:M 01 Dec 2021 21:27:29.172 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+786:M 01 Dec 2021 21:27:29.172 # Failed listening on port 6379 (TCP), aborting.
+46073:C 08 Dec 2021 13:24:07.836 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+46073:C 08 Dec 2021 13:24:07.837 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=46073, just started
+46073:C 08 Dec 2021 13:24:07.837 # Configuration loaded
+46073:M 08 Dec 2021 13:24:07.838 * monotonic clock: POSIX clock_gettime
+46073:M 08 Dec 2021 13:24:07.839 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+46073:M 08 Dec 2021 13:24:07.839 # Failed listening on port 6379 (TCP), aborting.
+48794:C 08 Dec 2021 14:47:41.068 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+48794:C 08 Dec 2021 14:47:41.068 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=48794, just started
+48794:C 08 Dec 2021 14:47:41.068 # Configuration loaded
+48794:M 08 Dec 2021 14:47:41.070 * monotonic clock: POSIX clock_gettime
+48794:M 08 Dec 2021 14:47:41.074 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+48794:M 08 Dec 2021 14:47:41.074 # Failed listening on port 6379 (TCP), aborting.
+1011:C 09 Dec 2021 08:19:42.167 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1011:C 09 Dec 2021 08:19:42.167 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=1011, just started
+1011:C 09 Dec 2021 08:19:42.167 # Configuration loaded
+1011:M 09 Dec 2021 08:19:42.168 * monotonic clock: POSIX clock_gettime
+1011:M 09 Dec 2021 08:19:42.169 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+1011:M 09 Dec 2021 08:19:42.169 # Failed listening on port 6379 (TCP), aborting.
+56397:C 14 Dec 2021 19:19:51.236 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+56397:C 14 Dec 2021 19:19:51.236 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=56397, just started
+56397:C 14 Dec 2021 19:19:51.236 # Configuration loaded
+56397:M 14 Dec 2021 19:19:51.238 * monotonic clock: POSIX clock_gettime
+56397:M 14 Dec 2021 19:19:51.245 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+56397:M 14 Dec 2021 19:19:51.245 # Failed listening on port 6379 (TCP), aborting.
+62138:C 15 Dec 2021 11:40:04.265 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+62138:C 15 Dec 2021 11:40:04.265 # Redis version=6.2.6, bits=64, commit=00000000, modified=0, pid=62138, just started
+62138:C 15 Dec 2021 11:40:04.265 # Configuration loaded
+62138:M 15 Dec 2021 11:40:04.266 * monotonic clock: POSIX clock_gettime
+62138:M 15 Dec 2021 11:40:04.267 # Warning: Could not create server TCP listening socket 127.0.0.1:6379: bind: Address already in use
+62138:M 15 Dec 2021 11:40:04.267 # Failed listening on port 6379 (TCP), aborting.

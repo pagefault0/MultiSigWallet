@@ -3,22 +3,10 @@ pragma solidity ^0.8.0;
 
 import "./MultiSigWallet.sol";
 
-contract ERC721TokenReceiver {
-    function onERC721Received(
-        address _operator,
-        address _from,
-        uint256 _tokenId,
-        bytes memory _data
-    ) external returns (bytes4) {
-        return ERC721TokenReceiver.onERC721Received.selector;
-    }
-}
-
 /// @title MultiSigWalletWithPermit wallet with permit -
 /// @author pagefault@126.com
 contract MultiSigWalletWithPermit is
-    MultiSigWallet,
-    ERC721TokenReceiver
+    MultiSigWallet
 {
     uint256 constant MAX =
         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
