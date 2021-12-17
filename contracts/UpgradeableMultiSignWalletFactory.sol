@@ -26,9 +26,7 @@ contract UpgradeableMultiSignWalletFactory {
             abi.encodePacked(_owners, _required, msg.sender)
         );
 
-        MultiSigV1 impl = new MultiSigV1{
-            salt: newsalt
-        }(new address[](0), 0);
+        MultiSigV1 impl = new MultiSigV1{salt: newsalt}(_owners, _required);
 
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy{
             salt: newsalt
