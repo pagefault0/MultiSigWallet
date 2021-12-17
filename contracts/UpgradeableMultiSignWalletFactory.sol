@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.2/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
-import "./MultiSigWalletWithPermit.sol";
+import "./MultiSigV1.sol";
 
 // is Factory
 contract UpgradeableMultiSignWalletFactory {
@@ -26,7 +26,7 @@ contract UpgradeableMultiSignWalletFactory {
             abi.encodePacked(_owners, _required, msg.sender)
         );
 
-        MultiSigWalletWithPermit impl = new MultiSigWalletWithPermit{
+        MultiSigV1 impl = new MultiSigV1{
             salt: newsalt
         }(new address[](0), 0);
 
@@ -34,8 +34,8 @@ contract UpgradeableMultiSignWalletFactory {
             salt: newsalt
         }(address(impl), address(proxyAdmin), "");
 
-        MultiSigWallet walletImpl = (MultiSigWallet(payable(proxy)));
-        walletImpl.initialize(_owners, _required);
+        MultiSigWalletWithPermit walletImpl = (MultiSigWallet(payable(proxy)));
+        walletImpl.setup(_owners, _required);
 
         wallet = address(proxy);
         // register(wallet);

@@ -5,9 +5,7 @@ import "./MultiSigWallet.sol";
 
 /// @title MultiSigWalletWithPermit wallet with permit -
 /// @author pagefault@126.com
-contract MultiSigWalletWithPermit is
-    MultiSigWallet
-{
+contract MultiSigWalletWithPermit is MultiSigWallet {
     uint256 constant MAX =
         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
 
@@ -37,6 +35,17 @@ contract MultiSigWalletWithPermit is
     constructor(address[] memory _owners, uint256 _required)
         MultiSigWallet(_owners, _required)
     {
+        if (_required > 0) {
+            setup0();
+        }
+    }
+
+    function setup(address[] memory _owners, uint256 _required) public {
+        initialize(_owners, _required);
+        setup0();
+    }
+
+    function setup0() private {
         supportedInterfaces[0x01ffc9a7] = true;
 
         uint256 chainId;
