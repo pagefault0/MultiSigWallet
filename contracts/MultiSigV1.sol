@@ -3,19 +3,24 @@ pragma solidity ^0.8.0;
 
 import "./ERC721TokenReceiver.sol";
 import "./MultiSigWalletWithPermit.sol";
+import "./ERC1155TokenReceiver.sol";
 
 /// @title MultiSigV1
 /// @author pagefault@126.com
-contract MultiSigV1 is MultiSigWalletWithPermit, ERC721TokenReceiver {
+contract MultiSigV1 is
+    MultiSigWalletWithPermit,
+    ERC721TokenReceiver,
+    ERC1155TokenReceiver
+{
     constructor(address[] memory _owners, uint256 _required)
         MultiSigWalletWithPermit(_owners, _required)
     {}
 
-    function eipFeatures() pure public returns(uint[2] memory fs){
-        fs = [uint(165),uint(721)];
+    function eipFeatures() public pure returns (uint256[3] memory fs) {
+        fs = [uint256(165), uint256(721), uint256(1155)];
     }
 
-    function version() pure public returns(uint){
+    function version() public pure returns (uint256) {
         return 1;
     }
 }
