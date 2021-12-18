@@ -32,7 +32,7 @@ contract UpgradeableMultiSignWalletFactory {
             salt: newsalt
         }(address(impl), address(proxyAdmin), "");
 
-        MultiSigWalletWithPermit walletImpl = (MultiSigWallet(payable(proxy)));
+        MultiSigWalletWithPermit walletImpl = (MultiSigWalletWithPermit(payable(proxy)));
         walletImpl.setup(_owners, _required);
 
         wallet = address(proxy);
