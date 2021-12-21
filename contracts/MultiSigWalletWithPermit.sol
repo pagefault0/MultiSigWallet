@@ -54,22 +54,22 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
         }
         DOMAIN_SEPARATOR = keccak256(
             abi.encode(
-                keccak256(
-                    "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
-                ),
-                keccak256(bytes("MultiSigWalletWithPermit")),
-                keccak256(bytes("1")),
+                // keccak256(
+                //     "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+                // ),
+                0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400f,
+                // keccak256(bytes("MultiSigWalletWithPermit")),
+                0x911a814036e00323c4ca54d47b0a363338990ca044824eba7a28205763e6115a,
+                // keccak256(bytes("1")),
+                0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6,
                 chainId,
                 address(this)
             )
         );
-        PERMIT_TYPEHASH = keccak256(
-            "DelegateCall(address delegator,address destination,uint256 value,bytes data,uint256 transactionId)"
-        );
     }
 
     bytes32 public DOMAIN_SEPARATOR;
-    bytes32 public PERMIT_TYPEHASH;
+    bytes32 public constant PERMIT_TYPEHASH = 0x8d14977a529be0cde9be2de41261d56c536e10c2bfb3f797a663ac4f3676d2fe;
 
     /*
      * delegateCallWithPermit
@@ -133,7 +133,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
                         msg.sender,
                         destination,
                         value,
-                        data,
+                        keccak256(data),
                         transactionId
                     )
                 )

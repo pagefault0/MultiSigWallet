@@ -6,7 +6,7 @@ import "./MultiSigWalletWithPermit.sol";
 
 
 /// @title Multisignature wallet factory - Allows creation of multisig wallet.
-/// @author Stefan George - <stefan.george@consensys.net>
+/// @author pagefault@126.com
 contract MultiSigWalletWithPermitFactory is Factory {
 
     /*
