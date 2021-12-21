@@ -6,9 +6,6 @@ import "./MultiSigWallet.sol";
 /// @title MultiSigWalletWithPermit wallet with permit -
 /// @author pagefault@126.com
 contract MultiSigWalletWithPermit is MultiSigWallet {
-    uint256 constant MAX =
-        0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff;
-
     mapping(bytes4 => bool) internal supportedInterfaces;
 
     function supportsInterface(bytes4 interfaceID)
@@ -145,7 +142,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
         require(isOwner[owner]);
 
         if (destination != address(0)) {
-            require(transactionId == MAX, "invalid transactionId");
+            require(transactionId == transactionCount, "invalid transactionId(nonce)");
             newTransactionId = addTransaction(destination, value, data);
             confirmTransactionInner(transactionId, owner);
         } else {
