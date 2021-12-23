@@ -56,7 +56,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     /// @dev Contract constructor sets initial owners, required number of confirmations.
     /// @param _owners List of initial owners.
     /// @param _required Number of required confirmations.
-    /// @param _immutable
+    /// @param _immutable is owners immutable
     constructor(
         address[] memory _owners,
         uint256 _required,
@@ -184,12 +184,27 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     {
         Transaction storage txn = transactions[transactionId];
         txn.executed = true;
-        if (
-            external_call(txn.destination, txn.value, txn.data.length, txn.data)
-        ) emit Execution(transactionId);
-        else {
-            emit ExecutionFailure(transactionId);
-            txn.executed = false;
+
+        require(
+            address(this).balance >= txn.value,
+            "insufficient balance for call"
+        );
+
+        (bool success, bytes memory returndata) = txn.destination.call{
+            value: txn.value
+        }(txn.data);
+
+        if (success) {
+            emit Execution(transactionId);
+        } else {
+            if (returndata.length > 0) {
+                assembly {
+                    let returndata_size := mload(returndata)
+                    revert(add(32, returndata), returndata_size)
+                }
+            } else {
+                revert("call failed");
+            }
         }
     }
 }
