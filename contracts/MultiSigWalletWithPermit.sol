@@ -171,13 +171,10 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     function executeTransactionInner(
         address destination,
         uint256 value,
-        bytes memory data,uint256 transactionId)
-        private
-    {
-        require(
-            address(this).balance >= value,
-            "MS07"
-        );
+        bytes memory data,
+        uint256 transactionId
+    ) private {
+        require(address(this).balance >= value, "MS07");
 
         (bool success, bytes memory returndata) = destination.call{
             value: value
