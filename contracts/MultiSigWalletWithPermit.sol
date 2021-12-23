@@ -11,7 +11,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     bool internal initialized = false;
 
     modifier notImmutable() {
-        require(!ownersImmutable, "immutable");
+        require(!ownersImmutable, "MS01");
         _;
     }
 
@@ -74,7 +74,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
         uint256 _required,
         bool _immutable
     ) public {
-        require(!initialized, "initialized");
+        require(!initialized, "MS02");
         initialized = true;
         super.initialize(_owners, _required);
         setup0(_immutable);
@@ -126,15 +126,15 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
         bytes32[] memory ss,
         uint8[] memory vs
     ) public returns (uint256 newTransactionId) {
-        require(isOwner[msg.sender], "not owner");
-        require(rs.length == ss.length, "invalid signs");
-        require(rs.length == vs.length, "invalid signs2");
-        require(nonce == transactionCount, "invalid transactionId(nonce)");
-        require(rs.length + 1 == required, "invalid signs3");
-        require(destination != address(0), "invalid destination");
+        require(isOwner[msg.sender], "MS90");
+        require(rs.length == ss.length, "MS91");
+        require(rs.length == vs.length, "MS92");
+        require(nonce == transactionCount, "MS93");
+        require(rs.length + 1 == required, "MS94");
+        require(destination != address(0), "MS95");
 
         newTransactionId = addTransaction(destination, value, data);
-        confirmTransactionInner(newTransactionId, msg.sender);
+        confirmations[newTransactionId][msg.sender] = true;
 
         bytes32 digest = keccak256(
             abi.encodePacked(
@@ -155,46 +155,36 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
 
         for (uint8 i = 0; i < rs.length; ++i) {
             address owner = ecrecover(digest, vs[i], rs[i], ss[i]);
-            require(owner != address(0), "0 address");
-            require(isOwner[owner], "not owner");
+            require(owner != address(0), "MS03");
+            require(isOwner[owner], "MS04");
 
-            confirmTransactionInner(newTransactionId, owner);
+            confirmations[newTransactionId][owner] = true;
         }
 
         if (isConfirmed(newTransactionId)) {
-            executeTransactionInner(newTransactionId);
-            require(transactions[newTransactionId].executed, "tx failed");
+            executeTransactionInner(destination, value, data, newTransactionId);
         } else {
-            require(false, "confirm failed");
+            revert("MS06");
         }
     }
 
-    function confirmTransactionInner(uint256 transactionId, address owner)
+    function executeTransactionInner(
+        address destination,
+        uint256 value,
+        bytes memory data,uint256 transactionId)
         private
-        transactionExists(transactionId)
-        notConfirmed(transactionId, owner)
     {
-        confirmations[transactionId][owner] = true;
-        emit Confirmation(owner, transactionId);
-    }
-
-    function executeTransactionInner(uint256 transactionId)
-        private
-        notExecuted(transactionId)
-    {
-        Transaction storage txn = transactions[transactionId];
-        txn.executed = true;
-
         require(
-            address(this).balance >= txn.value,
-            "insufficient balance for call"
+            address(this).balance >= value,
+            "MS07"
         );
 
-        (bool success, bytes memory returndata) = txn.destination.call{
-            value: txn.value
-        }(txn.data);
+        (bool success, bytes memory returndata) = destination.call{
+            value: value
+        }(data);
 
         if (success) {
+            transactions[transactionId].executed = true;
             emit Execution(transactionId);
         } else {
             if (returndata.length > 0) {
@@ -203,7 +193,7 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
                     revert(add(32, returndata), returndata_size)
                 }
             } else {
-                revert("call failed");
+                revert("MS08");
             }
         }
     }

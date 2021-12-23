@@ -123,7 +123,7 @@ contract MultiSigWallet {
     function initialize(address[] memory _owners, uint _required) internal
      validRequirement(_owners.length, _required)
     {
-        require(required == 0, "initialized");
+        require(required == 0, "MS00");
         for (uint i = 0; i < _owners.length; i++) {
             require(!isOwner[_owners[i]] && _owners[i] != (address)(0));
             isOwner[_owners[i]] = true;
