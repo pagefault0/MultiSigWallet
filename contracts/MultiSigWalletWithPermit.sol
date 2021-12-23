@@ -7,6 +7,33 @@ import "./MultiSigWallet.sol";
 /// @author pagefault@126.com
 contract MultiSigWalletWithPermit is MultiSigWallet {
     mapping(bytes4 => bool) internal supportedInterfaces;
+    bool internal ownersImmutable = true;
+    bool internal initialized = false;
+
+    modifier notImmutable() {
+        require(!ownersImmutable, "immutable");
+        _;
+    }
+
+    function addOwner(address owner) public override notImmutable {
+        super.addOwner(owner);
+    }
+
+    function removeOwner(address owner) public override notImmutable {
+        super.removeOwner(owner);
+    }
+
+    function replaceOwner(address owner, address newOwner)
+        public
+        override
+        notImmutable
+    {
+        super.replaceOwner(owner, newOwner);
+    }
+
+    function changeRequirement(uint256 _required) public override notImmutable {
+        super.changeRequirement(_required);
+    }
 
     function supportsInterface(bytes4 interfaceID)
         external
@@ -29,20 +56,32 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
     /// @dev Contract constructor sets initial owners, required number of confirmations.
     /// @param _owners List of initial owners.
     /// @param _required Number of required confirmations.
-    constructor(address[] memory _owners, uint256 _required)
-        MultiSigWallet(_owners, _required)
-    {
+    /// @param _immutable
+    constructor(
+        address[] memory _owners,
+        uint256 _required,
+        bool _immutable
+    ) MultiSigWallet(_owners, _required) {
         if (_required > 0) {
-            setup0();
+            initialized = true;
+
+            setup0(_immutable);
         }
     }
 
-    function setup(address[] memory _owners, uint256 _required) public {
-        initialize(_owners, _required);
-        setup0();
+    function setup(
+        address[] memory _owners,
+        uint256 _required,
+        bool _immutable
+    ) public {
+        require(!initialized, "initialized");
+        initialized = true;
+        super.initialize(_owners, _required);
+        setup0(_immutable);
     }
 
-    function setup0() private {
+    function setup0(bool _immutable) private {
+        ownersImmutable = _immutable;
         supportedInterfaces[0x01ffc9a7] = true;
 
         uint256 chainId;
@@ -87,16 +126,16 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
         bytes32[] memory ss,
         uint8[] memory vs
     ) public returns (uint256 newTransactionId) {
+        require(isOwner[msg.sender], "not owner");
         require(rs.length == ss.length, "invalid signs");
         require(rs.length == vs.length, "invalid signs2");
-        require(
-            nonce == transactionCount,
-            "invalid transactionId(nonce)"
-        );
-        require(rs.length == required, "invalid signs3");
+        require(nonce == transactionCount, "invalid transactionId(nonce)");
+        require(rs.length + 1 == required, "invalid signs3");
         require(destination != address(0), "invalid destination");
 
         newTransactionId = addTransaction(destination, value, data);
+        confirmTransactionInner(newTransactionId, msg.sender);
+
         bytes32 digest = keccak256(
             abi.encodePacked(
                 "\x19\x01",
@@ -124,9 +163,10 @@ contract MultiSigWalletWithPermit is MultiSigWallet {
 
         if (isConfirmed(newTransactionId)) {
             executeTransactionInner(newTransactionId);
+            require(transactions[newTransactionId].executed, "tx failed");
+        } else {
+            require(false, "confirm failed");
         }
-
-        require(transactions[newTransactionId].executed, "tx failed");
     }
 
     function confirmTransactionInner(uint256 transactionId, address owner)

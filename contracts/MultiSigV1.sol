@@ -12,8 +12,9 @@ contract MultiSigV1 is
     ERC721TokenReceiver,
     ERC1155TokenReceiver
 {
-    constructor(address[] memory _owners, uint256 _required)
-        MultiSigWalletWithPermit(_owners, _required)
+    constructor(address[] memory _owners, uint256 _required,
+        bool _immutable)
+        MultiSigWalletWithPermit(_owners, _required, _immutable)
     {}
 
     function eipFeatures() public pure returns (uint256[3] memory fs) {
